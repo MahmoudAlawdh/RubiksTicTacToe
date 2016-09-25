@@ -15,6 +15,7 @@ public class button
     this.s = s;
     this.c = c;
   }
+
   public void draw(int x ,int y)
   {
     textSize(20);

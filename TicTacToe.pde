@@ -20,79 +20,54 @@ void setup()
 }
 void t(color c, String s,int w,int h)
 {
+
   textSize(20);
   fill(c);
   text(s,w,h);
 }
+
 void draw()
 {
+
   background(0,0,0);
   pointLight(255, 255, 255, pcam.getPosition()[0], pcam.getPosition()[1], pcam.getPosition()[2]);
   rubiks.display();
   pcam.beginHUD();
   b.draw(mouseX,mouseY);
-  textSize(20);
+
   if(turn == 1 || turn == 2)
   {
     time = (millis() - rubiks.start)/1000;
   }
+
   t(color(255,0,0),"Player1 : " + p1win ,0,height-10);
   t(color(0,0,255),"Player2 : " + p2win,width-110 , height-10);
   t(color(255,255,255),"Time :"+time, width/30, 30);
 
   if(turn == 1)
   {
-    fill(255, 0, 0);
-    text("Player " + turn , width/2 - width/10, 30);
+    t(color(255,0,0),"Player " + turn , width/2 - width/10, 30);
   }
   else if(turn == 2)
   {
-    fill(0,0,255);
-    text("Player " + turn , width/2 - width/10, 30);
+    t(color(0,0,255),"Player " + turn , width/2 - width/10, 30);
   }
   else if(turn ==3)
   {
-    fill(255, 0, 0);
-    text("Player 1 wins" , width/2 - width/10, 30);
+    t(color(255,0,0),"Player 1 wins" , width/2 - width/10, 30);
   }
   else if (turn == 4 )
   {
-    fill(0,0,255);
-    text("Player 2 wins" , width/2 - width/10, 30);
+    t(color(255,0,0),"Player 2 wins" , width/2 - width/10, 30);
   }
+
   pcam.endHUD();
-
-  }
-
-
-Cube pickCube(int x, int y) {
-  Cube cube = null;
-
-  pg.projection.set(((PGraphicsOpenGL)g).projection);
-  pg.camera.set(((PGraphicsOpenGL)g).camera);
-  pg.beginDraw();
-
-  pg.noLights();
-  pg.noStroke();
-  pg.background(255);
-  for (int i = 0; i < rubiks.cubes.length; i++)
-    rubiks.cubes[i].displayForPicker();
-  int c = pg.get(x, y);
-
-  pg.endDraw();
-  for (int i = 0; i < rubiks.cubes.length; i++) {
-    if (rubiks.cubes[i].pickCol == c) {
-      cube = rubiks.cubes[i];
-      break;
-    }
-  }
-  return cube;
 }
 
 void mouseClicked  () {
   if (mouseButton == RIGHT)
   {
-    Cube picked = pickCube(mouseX, mouseY);
+    Cube picked = rubiks.pickCube(mouseX, mouseY);
     if (picked != null) {
       if(!picked.alreadypicked)
         {
@@ -135,7 +110,7 @@ void mouseMoved()
   {
     t.highlight = 0;
   }
-  Cube picked = pickCube(mouseX, mouseY);
+  Cube picked = rubiks.pickCube(mouseX, mouseY);
   if(picked != null)
   {
     picked.highlight = 200;

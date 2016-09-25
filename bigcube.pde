@@ -29,6 +29,31 @@ public class bigcube
       }
     }
 
+    public Cube pickCube(int x, int y)
+    {
+      Cube cube = null;
+
+      pg.projection.set(((PGraphicsOpenGL)g).projection);
+      pg.camera.set(((PGraphicsOpenGL)g).camera);
+      pg.beginDraw();
+
+      pg.noLights();
+      pg.noStroke();
+      pg.background(255);
+      for (int i = 0; i < rubiks.cubes.length; i++)
+        rubiks.cubes[i].displayForPicker();
+      int c = pg.get(x, y);
+
+      pg.endDraw();
+      for (int i = 0; i < rubiks.cubes.length; i++) {
+        if (rubiks.cubes[i].pickCol == c) {
+          cube = rubiks.cubes[i];
+          break;
+        }
+      }
+      return cube;
+    }
+
     public void display()
     {
       for (int i = 0; i < cubes.length; i++)
